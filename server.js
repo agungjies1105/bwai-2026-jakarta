@@ -393,6 +393,10 @@ app.put('/api/orders/:id/status', verifyCSRF, async (req, res) => {
 });
 
 // Fallback: Serve UI for all other paths
+app.get('/CHANGELOG.md', (req, res) => {
+  res.sendFile(path.join(__dirname, 'CHANGELOG.md'));
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });

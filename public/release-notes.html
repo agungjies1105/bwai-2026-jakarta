@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-luxury-dark text-white scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeBite | Release Notes</title>
+  <meta name="description" content="Release notes and updates for LuxeBite Gastronomic Artisan Culinary.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/dist/output.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="h-full font-sans antialiased bg-luxury-dark selection:bg-luxury-gold selection:text-black">
+
+  <div class="relative min-h-screen flex flex-col justify-between overflow-x-hidden">
+    
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[350px] bg-gradient-to-b from-amber-500/10 to-transparent blur-[120px] pointer-events-none"></div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-luxury-dark/80 backdrop-blur-md border-b border-luxury-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-luxury-gold to-yellow-600 flex items-center justify-center shadow-lg shadow-yellow-600/20 group-hover:scale-105 transition-transform duration-300">
+            <span class="font-serif font-bold text-xl text-black">L</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center space-x-1.5">
+              <span class="font-serif text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-white via-luxury-goldLight to-luxury-gold group-hover:opacity-95 transition-opacity">LuxeBite</span>
+              <span class="px-1.5 py-0.5 rounded-md bg-luxury-border text-[8px] text-luxury-gold border border-luxury-gold/20 font-bold uppercase tracking-wider">v1.0.0</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-luxury-gold font-medium">Release Notes</span>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 z-10">
+      
+      <div class="text-center mb-12">
+        <h1 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">Application Updates</h1>
+        <p class="text-luxury-textMuted text-sm">Stay informed about the latest features, enhancements, and bug fixes.</p>
+      </div>
+
+      <div class="space-y-8" id="release-notes-container">
+        <!-- Rendered markdown goes here -->
+        <div class="bg-luxury-card border border-luxury-border rounded-2xl p-6 md:p-8">
+          <div class="prose prose-invert prose-sm max-w-none text-gray-300" id="markdown-content">
+            <div class="flex justify-center items-center py-12">
+              <div class="w-8 h-8 rounded-full border-2 border-t-luxury-gold border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/80 border-t border-luxury-border py-8 text-center text-xs space-y-4 mt-auto">
+      <div class="flex justify-center space-x-6">
+        <a href="/" class="text-luxury-textMuted hover:text-white transition-colors">Back to Menu</a>
+      </div>
+      <p class="text-[10px] text-gray-600 tracking-wider uppercase">&copy; 2026 LuxeBite Gastronomy Inc. All Rights Reserved. (SemVer v1.0.0)</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('/CHANGELOG.md')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch CHANGELOG.md");
+          }
+          return response.text();
+        })
+        .then(text => {
+          const contentDiv = document.getElementById("markdown-content");
+          contentDiv.innerHTML = marked.parse(text);
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("markdown-content").innerHTML = "<p class='text-red-500'>Error loading release notes.</p>";
+        });
+    });
+  </script>
+
+</body>
+</html>
