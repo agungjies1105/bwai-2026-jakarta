@@ -1,18 +1,18 @@
-# LuxeBite Gourmet Web Ordering App
+# Aplikasi Web Pemesanan Makanan Mewah LuxeBite
 
 > **Catatan:** Aplikasi ini untuk digunakan sebagai demo Session di GDG Cloud Jakarta untuk event Build with AI 2026.
 
-LuxeBite is a high-end, premium food ordering web application built with Node.js (Express), Tailwind CSS, and secure Vanilla JavaScript.
+LuxeBite adalah aplikasi web pemesanan makanan mewah yang dibangun dengan Node.js (Express), Tailwind CSS, dan Vanilla JavaScript yang aman.
 
-## Features
-- **Premium Aesthetics:** Dynamic luxury design with glassmorphism and micro-animations.
-- **Secure Codebase:** No `innerHTML` usage, custom CSRF header validation, and PII masking.
-- **Real-Time Order Tracking:** Beautiful graphical timeline tracking progress.
-- **Kitchen Logistics Console:** Embedded staff dashboard to manage live operations.
+## Fitur Utama
+- **Estetika Premium:** Desain mewah yang dinamis dengan efek glassmorphism dan animasi mikro.
+- **Basis Kode Aman:** Tanpa penggunaan `innerHTML`, validasi header CSRF khusus, dan penyamaran PII (Data Pribadi).
+- **Pelacakan Pesanan Waktu Nyata:** Pelacakan kemajuan pesanan dengan grafis linimasa yang indah.
+- **Dasbor Logistik Dapur:** Dasbor staf terintegrasi untuk mengelola operasional secara langsung.
 
-## Running Locally
-1. Install dependencies: `npm install`
-2. Start the application: `npm run dev`
-3. Navigate to `http://127.0.0.1:3000`
+## Menjalankan Secara Lokal
+1. Instal dependensi: `npm install`
+2. Jalankan aplikasi: `npm run dev`
+3. Buka di peramban: `http://127.0.0.1:3000`
 
 *(SemVer v1.0.0)*

@@ -27,7 +27,7 @@ function readOrders() {
     const data = fs.readFileSync(DB_PATH, 'utf8');
     return JSON.parse(data || '[]');
   } catch (err) {
-    console.error('[Database Error] Failed to read orders:', err);
+    console.error('[Kesalahan Basis Data] Gagal membaca pesanan:', err);
     return [];
   }
 }
@@ -39,7 +39,7 @@ function writeOrders(orders) {
         fs.writeFileSync(DB_PATH, JSON.stringify(orders, null, 2), 'utf8');
         resolve();
       } catch (err) {
-        console.error('[Database Error] Failed to write orders:', err);
+        console.error('[Kesalahan Basis Data] Gagal menyimpan pesanan:', err);
         reject(err);
       }
     });
@@ -60,70 +60,70 @@ setInterval(() => {
   });
 }, 3600000);
 
-// Menu Data
+// Menu Data (Indonesian)
 const MENU = [
   {
     id: 'burg-1',
-    name: 'Truffle Gold Wagyu Burger',
+    name: 'Burger Wagyu Truffle Emas',
     price: 24.00,
-    category: 'burgers',
-    description: 'Double Wagyu blend, black truffle aioli, edible 24k gold leaf, aged gruyère, brioche bun.',
+    category: 'burger',
+    description: 'Campuran daging sapi Wagyu ganda, aioli truffle hitam, daun emas 24k yang dapat dimakan, keju gruyère tua, roti brioche.',
     accentColor: '#D4AF37'
   },
   {
     id: 'burg-2',
-    name: 'Smoked Ember Brisket Burger',
+    name: 'Burger Sandung Lamur Asap',
     price: 18.00,
-    category: 'burgers',
-    description: 'Smoked brisket-beef blend, maple-glazed bacon, sharp cheddar, ember-charred sweet onions, house glaze.',
+    category: 'burger',
+    description: 'Campuran daging sapi sandung lamur asap, bacon berlapis maple, cheddar tajam, bawang manis bakar, olesan khas.',
     accentColor: '#FF6B35'
   },
   {
     id: 'pizz-1',
-    name: 'Burrata & Hot Honey Fig Pizza',
+    name: 'Pizza Burrata & Madu Pedas Ara',
     price: 22.00,
-    category: 'pizzas',
-    description: 'Fresh burrata, black mission figs, prosciutto di Parma, wild baby arugula, organic wildflower hot honey.',
+    category: 'pizza',
+    description: 'Burrata segar, buah ara hitam, prosciutto di Parma, daun arugula liar, madu pedas bunga liar organik.',
     accentColor: '#E01E37'
   },
   {
     id: 'pizz-2',
-    name: 'Garden Alchemy Pesto Pizza',
+    name: 'Pizza Pesto Taman Alkimia',
     price: 19.00,
-    category: 'pizzas',
-    description: 'Heirloom cherry tomatoes, fire-roasted garlic, marinated artichoke hearts, wild basil almond pesto.',
+    category: 'pizza',
+    description: 'Tomat ceri pusaka, bawang putih panggang, hati artichoke yang direndam, pesto almond basil liar.',
     accentColor: '#2EC4B6'
   },
   {
     id: 'drik-1',
-    name: 'Smoked Rosemary Old Fashioned',
+    name: 'Old Fashioned Rosemary Asap',
     price: 14.00,
-    category: 'drinks',
-    description: 'Premium bourbon, hand-pressed angostura bitters, house smoked rosemary wood chip infusion.',
+    category: 'minuman',
+    description: 'Bourbon premium, angostura bitters perasan tangan, infus serpihan kayu rosemary asap khas.',
     accentColor: '#A855F7'
   },
   {
     id: 'drik-2',
-    name: 'Lavender Butterfly Pea Elixir',
+    name: 'Elixir Lavender Bunga Telang',
     price: 8.00,
-    category: 'drinks',
-    description: 'Organic lavender extract, double-brewed butterfly pea tea, fresh-squeezed organic lemonade.',
+    category: 'minuman',
+    description: 'Ekstrak lavender organik, teh bunga telang seduh ganda, limun organik peras segar.',
     accentColor: '#3B82F6'
   },
   {
     id: 'dess-1',
-    name: 'Matcha Molten Lava Fondant',
+    name: 'Fondant Lava Matcha',
     price: 12.00,
-    category: 'desserts',
-    description: 'Uji ceremonial matcha cake, molten Belgian white chocolate center, toasted black sesame gelato.',
+    category: 'hidangan penutup',
+    description: 'Kue matcha seremonial Uji, lelehan cokelat putih Belgia di tengah, gelato wijen hitam panggang.',
     accentColor: '#10B981'
   },
   {
     id: 'dess-2',
-    name: 'Warm Salted Caramel Sphere',
+    name: 'Kubah Karamel Asin Hangat',
     price: 14.00,
-    category: 'desserts',
-    description: 'Dark single-origin chocolate dome, warm house-salted caramel drizzle, organic vanilla bean cream.',
+    category: 'hidangan penutup',
+    description: 'Kubah cokelat hitam murni, siraman karamel asin hangat khas, krim kacang vanila organik.',
     accentColor: '#F59E0B'
   }
 ];
@@ -188,13 +188,13 @@ function verifyCSRF(req, res, next) {
   const csrfHeader = req.headers['x-csrf-token'];
 
   if (!sessionId || !sessions[sessionId]) {
-    return res.status(403).json({ error: 'Forbidden: Session expired or invalid.' });
+    return res.status(403).json({ error: 'Terlarang: Sesi telah berakhir atau tidak valid.' });
   }
 
   const storedToken = sessions[sessionId].csrfToken;
 
   if (!csrfHeader || !storedToken || csrfHeader !== storedToken) {
-    return res.status(403).json({ error: 'Forbidden: CSRF validation failed.' });
+    return res.status(403).json({ error: 'Terlarang: Validasi CSRF gagal.' });
   }
 
   next();
@@ -213,17 +213,17 @@ app.get('/api/orders/:id', (req, res) => {
   
   // Basic input check
   if (!/^[a-f0-9\-]+$/i.test(orderId)) {
-    return res.status(400).json({ error: 'Invalid order identifier format.' });
+    return res.status(400).json({ error: 'Format pengenal pesanan tidak valid.' });
   }
 
   const orders = readOrders();
   const order = orders.find((o) => o.id === orderId);
 
   if (!order) {
-    return res.status(404).json({ error: 'Order not found.' });
+    return res.status(404).json({ error: 'Pesanan tidak ditemukan.' });
   }
 
-  // Sanitized output format (mask sensitive inputs, e.g., masked card is already saved masked)
+  // Sanitized output format
   res.json({
     id: order.id,
     customer: {
@@ -240,14 +240,12 @@ app.get('/api/orders/:id', (req, res) => {
 
 // 3. Get All Orders (Admin Dashboard - only for the active session)
 app.get('/api/orders', (req, res) => {
-  // Simple validation: check if active session exists
   const sessionId = getCookie(req, '__Secure-SessionId');
   if (!sessionId || !sessions[sessionId]) {
-    return res.status(401).json({ error: 'Unauthorized: Session not active.' });
+    return res.status(401).json({ error: 'Tidak Sah: Sesi tidak aktif.' });
   }
 
   const orders = readOrders();
-  // Return all orders but mask credit cards and format nicely
   const sanitizedOrders = orders.map((o) => ({
     id: o.id,
     customer: {
@@ -268,41 +266,36 @@ app.get('/api/orders', (req, res) => {
 app.post('/api/orders', verifyCSRF, async (req, res) => {
   const { customer, items, totals } = req.body;
 
-  // Rigorous Input Validations
   if (!customer || !items || !totals) {
-    return res.status(400).json({ error: 'Missing mandatory order parameters.' });
+    return res.status(400).json({ error: 'Parameter pesanan wajib tidak lengkap.' });
   }
 
   const { name, phone, address, cardNumber, cardExpiry, cardCvv } = customer;
 
-  // Basic regex matches
   if (!name || name.trim().length < 2 || name.trim().length > 64) {
-    return res.status(400).json({ error: 'Invalid name. Must be 2-64 characters.' });
+    return res.status(400).json({ error: 'Nama tidak valid. Harus 2-64 karakter.' });
   }
 
-  // Indon / International phone check
   if (!phone || !/^\+?[0-9\s\-()]{8,20}$/.test(phone)) {
-    return res.status(400).json({ error: 'Invalid contact number format.' });
+    return res.status(400).json({ error: 'Format nomor kontak tidak valid.' });
   }
 
   if (!address || address.trim().length < 5 || address.trim().length > 256) {
-    return res.status(400).json({ error: 'Invalid delivery address. Must be 5-256 characters.' });
+    return res.status(400).json({ error: 'Alamat pengiriman tidak valid. Harus 5-256 karakter.' });
   }
 
-  // Credit Card Masking & Checking (PII Sanitization)
   if (!cardNumber || !/^[0-9\s-]{12,19}$/.test(cardNumber)) {
-    return res.status(400).json({ error: 'Invalid card number.' });
+    return res.status(400).json({ error: 'Nomor kartu tidak valid.' });
   }
   if (!cardExpiry || !/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(cardExpiry)) {
-    return res.status(400).json({ error: 'Invalid card expiry.' });
+    return res.status(400).json({ error: 'Masa berlaku kartu tidak valid.' });
   }
   if (!cardCvv || !/^[0-9]{3,4}$/.test(cardCvv)) {
-    return res.status(400).json({ error: 'Invalid CVV code.' });
+    return res.status(400).json({ error: 'Kode CVV tidak valid.' });
   }
 
-  // Validate items
   if (!Array.isArray(items) || items.length === 0) {
-    return res.status(400).json({ error: 'Your cart is empty.' });
+    return res.status(400).json({ error: 'Keranjang belanja Anda kosong.' });
   }
 
   const validatedItems = [];
@@ -311,11 +304,11 @@ app.post('/api/orders', verifyCSRF, async (req, res) => {
   for (const item of items) {
     const menuItem = MENU.find((m) => m.id === item.id);
     if (!menuItem) {
-      return res.status(400).json({ error: `Dish not found in menu: ${item.name}` });
+      return res.status(400).json({ error: `Hidangan tidak ditemukan di menu: ${item.name}` });
     }
     const quantity = parseInt(item.quantity, 10);
     if (isNaN(quantity) || quantity <= 0 || quantity > 50) {
-      return res.status(400).json({ error: 'Invalid item quantity.' });
+      return res.status(400).json({ error: 'Jumlah item tidak valid.' });
     }
 
     const customInstructions = item.instructions ? String(item.instructions).substring(0, 150) : '';
@@ -331,11 +324,10 @@ app.post('/api/orders', verifyCSRF, async (req, res) => {
     calculatedSubtotal += menuItem.price * quantity;
   }
 
-  const tax = Number((calculatedSubtotal * 0.1).toFixed(2)); // 10% tax
-  const delivery = calculatedSubtotal > 50 ? 0 : 5.00; // Free delivery for orders > $50
+  const tax = Number((calculatedSubtotal * 0.1).toFixed(2));
+  const delivery = calculatedSubtotal > 50 ? 0 : 5.00;
   const finalTotal = Number((calculatedSubtotal + tax + delivery).toFixed(2));
 
-  // Mask Credit Card for storage: Keep only last 4 digits
   const cleanCard = cardNumber.replace(/[\s-]/g, '');
   const maskedCard = `****-****-****-${cleanCard.slice(-4)}`;
 
@@ -355,7 +347,7 @@ app.post('/api/orders', verifyCSRF, async (req, res) => {
       delivery,
       total: finalTotal
     },
-    status: 'Created',
+    status: 'Dibuat', // Created -> Dibuat
     createdAt: new Date().toISOString()
   };
 
@@ -365,7 +357,7 @@ app.post('/api/orders', verifyCSRF, async (req, res) => {
     await writeOrders(orders);
     res.status(201).json({ success: true, orderId });
   } catch (err) {
-    res.status(500).json({ error: 'Internal server error processing the order.' });
+    res.status(500).json({ error: 'Kesalahan server internal saat memproses pesanan.' });
   }
 });
 
@@ -374,14 +366,13 @@ app.put('/api/orders/:id/status', verifyCSRF, async (req, res) => {
   const orderId = req.params.id;
   const { status } = req.body;
 
-  const validStatuses = ['Created', 'Preparing', 'On the Way', 'Delivered', 'Cancelled'];
+  const validStatuses = ['Dibuat', 'Sedang Disiapkan', 'Dalam Perjalanan', 'Terkirim', 'Dibatalkan'];
   if (!validStatuses.includes(status)) {
-    return res.status(400).json({ error: 'Invalid status transition value.' });
+    return res.status(400).json({ error: 'Nilai transisi status tidak valid.' });
   }
 
-  // Basic check for order ID
   if (!/^[a-f0-9\-]+$/i.test(orderId)) {
-    return res.status(400).json({ error: 'Invalid order identifier.' });
+    return res.status(400).json({ error: 'Pengenal pesanan tidak valid.' });
   }
 
   try {
@@ -389,7 +380,7 @@ app.put('/api/orders/:id/status', verifyCSRF, async (req, res) => {
     const orderIndex = orders.findIndex((o) => o.id === orderId);
 
     if (orderIndex === -1) {
-      return res.status(404).json({ error: 'Order not found.' });
+      return res.status(404).json({ error: 'Pesanan tidak ditemukan.' });
     }
 
     orders[orderIndex].status = status;
@@ -397,7 +388,7 @@ app.put('/api/orders/:id/status', verifyCSRF, async (req, res) => {
 
     res.json({ success: true, status: orders[orderIndex].status });
   } catch (err) {
-    res.status(500).json({ error: 'Internal server error updating order status.' });
+    res.status(500).json({ error: 'Kesalahan server internal saat memperbarui status pesanan.' });
   }
 });
 
@@ -408,5 +399,5 @@ app.get('*', (req, res) => {
 
 // Launch server
 app.listen(PORT, HOST, () => {
-  console.log(`[LuxeBite Server] Operating at http://${HOST}:${PORT}`);
+  console.log(`[Server LuxeBite] Beroperasi di http://${HOST}:${PORT}`);
 });
