@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Luxury Dynamic Styles & Transitions */
+@layer base {
+  body {
+    background-color: #0A0A0A;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbars for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbars for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+/* Custom Scrollbar Styles for standard scrollable areas */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A2A2A;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* Keyframes for custom micro-animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+}
+
+/* Special utility classes */
+.gold-glow {
+  animation: glowPulse 2s infinite ease-in-out;
+}
